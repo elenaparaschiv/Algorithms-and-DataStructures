@@ -92,7 +92,7 @@ function unshift(value) {
 // Returns: The removed element from the array
 
 
-function unshift() {
+function shift() {
   // make an array
 	var array = [1,2,3,4];
   //get first value because it will be returned at the end
