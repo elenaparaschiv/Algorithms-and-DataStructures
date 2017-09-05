@@ -1,1 +1,22 @@
 # Algorithms-and-DataStructures
+
+
+This repository contains 2 folders:
+
+One describing concepts of Algorithms and Data Structures.
+
+Second Problems solutions encountered in the book Cracking the Code Interview 6th Edition [book](https://www.amazon.com/Cracking-Coding-Interview-Programming-Questions/dp/0984782850) 
+
+## List of Algorithms and Data Structures
+
+- [x] 1. - Lists. 
+
+
+
+## List of Problem Solutions
+
+#### Chapter 1 
+- [x] 1.1 - Is Unique
+- [x] 1.2 - Check Permutation
+- [x] 1.3 - URLify
+- [x] 1.4 - Palindrome Permutation
