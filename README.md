@@ -5,7 +5,7 @@ This repository contains 2 folders:
 
 One describing concepts of Algorithms and Data Structures.
 
-Second Problems solutions encountered in the book Cracking the Code Interview 6th Edition [book](https://www.amazon.com/Cracking-Coding-Interview-Programming-Questions/dp/0984782850) 
+Second my attempt to the Problems encountered in the book Cracking the Code Interview 6th Edition [book](https://www.amazon.com/Cracking-Coding-Interview-Programming-Questions/dp/0984782850) 
 
 ## List of Algorithms and Data Structures
 
