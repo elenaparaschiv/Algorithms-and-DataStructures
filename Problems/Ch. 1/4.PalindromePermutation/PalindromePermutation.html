@@ -1,0 +1,106 @@
+<script src="tinyTest.js"></script>
+<script>
+
+/** Problem:
+Given a string, write a function to check if it is a permutation of a palindrome.
+
+********************************************************************************
+**Definition of a palindrome:
+A palindrome is a word or phrase that is the same forwards and backwards.
+i.e. "rats live on no evil star" . If you read this sentence backwards it is still the same.
+
+** You are allowed to have a midpoint in a palindrome:
+i.e. "aa bb cc e"  >> "abcecba" , e is the midpoint
+** But you can't have more than one midpoint because then the string won't read the same backwards.
+  i.e. "aa bb cc e f" >> "abcefcba" is not a palindrome anymore
+
+  ! We need to have only one midpoint
+*********************************************************************************
+*********************************************************************************
+Function signiture
+
+Input: string
+Output: true/ false , depending if the string is a permutation of a palindrome or not.
+*********************************************************************************
+Sketch of solution :
+
+// Stage 1: Count elements
+  // there should be an iteration through each element of the array
+    //ExceptionCase: Ignore whitespaces and turn all letters lowercase
+  // and count how many times that elem appears
+  // == Solution : have an object that has the key the element and the value the nr. of times it appears
+
+// Stage 2
+// Check if each element stored is odd or even
+  return true:
+    // Case1: If all are even > its a palindrom
+    // Case 2: If all are even, except one that is odd(midpoint)> its a palindrom
+
+  return false:
+    // Case 3: If more than one element is even, return false its not a palindrom
+*/
+
+function palPerm(string) {
+  var strArr = string.split('');
+  var obj = {};
+  var currElem;
+  var mulligan = false;
+  var isPalindromPerm = true;
+
+  /* Stage 1 */
+  // there should be an iteration through each element of the array
+  // store in an object the key as the element and the value as the nr of times it appears
+  strArr.forEach(function(elem) {
+    // ignore whitespaces
+    if(elem !== ' ') {
+      // turn each elem to lowercase
+        currElem = elem.toLowerCase();
+      // first time each elem is undefined, so it will appear 0 times, then it increases by 1 for each new iteration
+      if(obj[currElem] === undefined) {
+        obj[currElem] = 0;
+      }
+      obj[currElem]++ ;
+    }
+  });
+  /* End of Stage 1 */
+
+  /* Stage 2 */
+  // Now we have an obj that shows each key as the element in the strArray and the value its the nr of times it appeared
+  // Next step is to iterate through each key as see if the value is even or odd:
+    //
+  Object.keys(obj).forEach(function(elem){
+    // check if the value is odd
+    // if its odd one time its ok
+    // if its odd more than one time its not a palindrom
+    if(obj[elem] % 2 > 0) {
+      // will use var mulligan that is initially set to false and then to true, if one odd number is registered.
+      if(mulligan) {
+        isPalindromPerm = false;
+      } else {
+        mulligan = true;
+      }
+    }
+  });
+  return isPalindromPerm;
+  /*End stage 2*/
+}
+
+
+tests({
+  'It should return true if there is a palindrom and no midpoint': function(){
+    var string = "aabbcc";
+    eq(palPerm(string), true);
+  },
+
+  'It should return true if there is one midpoint': function(){
+    var string = "aabbc";
+    eq(palPerm(string), true);
+  },
+
+  'It should return false if there are more than one midpoint ': function(){
+    var string = "abfbc";
+    eq(palPerm(string), false);
+  }
+});
+
+</script>

@@ -1,0 +1,46 @@
+<script src="tinyTest.js"></script>
+<script>
+// Definition:
+// Permutation is the arrangement of a given set of numbers or things in a certain order.
+
+
+// Solve:
+// Given two strings, write a method to decide if one is a permutation of the other.
+
+// Methods used:
+  // String.prototype.split,
+  // Array.prototype.sort,
+  // Array.prototype.join
+
+
+function checkPermutation(stringOne, stringTwo) {
+  // both strings should have same length
+  if (stringOne.length !== stringTwo.length) {
+    return false;
+  } else {
+    var stringOneSplit = stringOne.split('').sort().join('');
+    var stringTwoSplit = stringTwo.split('').sort().join('');
+    return stringOneSplit === stringTwoSplit;
+  }
+}
+
+// Tests
+  // both strings should have same length
+
+  // if this is the case: => both strings should contain the same letters, even if in different order
+    // so if you arrange all of the letters in alphabetical order for both string
+    //if they are the same, then its a permutation
+
+
+  tests({
+  	'Both strings should have the same length': function(){
+  		var returnValue = checkPermutation('cdsf', 'cdsedf');
+      eq(returnValue, false);
+  	},
+  	'If they have the same length, they should be alphabetically ordered and checked if they are the same ': function(){
+      var returnValue = checkPermutation('cdsf', 'csfd');
+      eq(returnValue, true);
+  	}
+  });
+
+</script>

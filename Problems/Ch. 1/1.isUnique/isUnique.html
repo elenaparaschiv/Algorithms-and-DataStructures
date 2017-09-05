@@ -1,0 +1,40 @@
+<script src="tinyTest.js"></script>
+<!--
+Implement an algorithm to determine if a string has all unique charchters.
+*******************
+
+Input: 'a string';
+Output: true/ false
+2 cases:
+	1. every charachter in the string is different than the other => return true
+	2. a charchter is same as other charachter = > return false
+
+* !key point : think about the 0 (n^2) approach, check remaining charachters for duplicates
+
+  -->
+<script>
+// iterate through each item in the array
+//compare it with each next value
+//if they are the same return true
+// else if all the items have been compared to their neighbour and they are not true
+// return false
+
+function isUnique(string){
+	for(var i = 0; i < string.length; i++){
+		for(j = i+1; j < string.length; j++){
+			if(string[i] === string[j]){
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+tests({
+	'Iterate through each item in the array': function(){
+		var string = 'abcde'
+		isUnique(string)
+		eq(isUnique(string), true);
+	}
+});
+</script>

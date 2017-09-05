@@ -1,0 +1,38 @@
+<script src="tinyTest.js"></script>
+<script>
+
+/**Problem:
+  Write a method to replace all spaces in a string with '%20:You may assume that the string has sufficient space
+  at the end to hold the additional characters, and that you are given the "true" length of the string.
+*/
+
+function urlify(string, length) {
+  var strArr = string.split('');
+
+  for (var i = 0; i < length; i++) {
+  	if (strArr[i] === " ") {
+  		strArr[i] = "%20";
+  	}
+  }
+
+  return strArr.join('');
+}
+
+
+// Test:
+
+  tests({
+  	'It should replace all empty spaces in a string with %20': function(){
+      var stringTest = "Mr John Smith";
+      eq(urlify(stringTest, 13), "Mr%20John%20Smith");
+  	},
+
+    'It should replace even the empty space after the last letter in a string with %20': function(){
+      debugger;
+      var stringTest = "Mr John Smith  ";
+      eq(urlify(stringTest, 15), "Mr%20John%20Smith%20%20");
+  	}
+
+  });
+
+</script>
