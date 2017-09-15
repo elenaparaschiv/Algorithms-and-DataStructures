@@ -1,0 +1,118 @@
+<script src="tinyTest.js"></script>
+<script>
+
+/**Problem:
+	3 cases of edits:
+		1. Insert a char       pale,  ple    ->    true
+		2. Remove a char       pales, pale   ->    true
+		3. Replace a char			 pale,  bake 	 ->    false
+
+		Given 2 strings: write a func to check if they are:
+		1 edit
+		0 edits away
+*/
+
+var oneAway = function (string1, string2) {
+	// insert a char for str 1 -> remove a char for str 2
+	var checkOneMissing = function(first, second) {
+		// ple.length(3) !== pale.length - 1 (4-1 = 3),
+		// daca nu-s egale  -> return false
+		// daca sunt egale
+		// I. Case cu delete (1 mai mica)
+		if(first.length !== second.length -1) {
+			return false ;
+		} else {
+			// 3 === 3
+			var mulligan = false;
+			var fP = 0;
+			var sP = 0;
+			while (fP < first.length ) { // 0 < 3
+					if(first[fP] !== second[sP]) {
+						// are dreptul la un mismatch (1 edit)
+						if (mulligan) {
+							return false;
+						} else {
+							mulligan = true;
+							sP++ ; // second length is longer ?
+						}
+					} else {
+						fP++;
+						sP++;
+					}
+			}
+			return true;
+		}
+	};
+
+	var checkOneDiff = function(first, second) {
+		if (first.length !== second.length) { // II. Case cu delete (> 1 mai mica)
+			return false;
+		} else {
+			// III. Is egale
+			var mulligan = false;
+			var fP = 0;
+			var sP = 0;
+			while(fP < first.length) {
+				if (first[fP] !== second[sP]) {
+					if (mulligan) {
+						return false ;
+					} else {
+						mulligan = true;
+					}
+				}
+				fP++ ;
+				sP++
+			}
+			return true;
+		}
+	};
+
+	return checkOneMissing(string1, string2) || checkOneMissing(string2, string1) || checkOneDiff(string1, string2);
+};
+
+// Test:
+
+
+	tests({
+		'Insert a char:  pale,  ple    ->    true': function(){  // one minus letter
+
+				var string1 = "pale";
+				var string2 = "ple";
+
+				eq(oneAway(string1, string2) , true);
+		},
+
+		'Remove a char:  pales, pale   ->    true': function(){ // one extra letter
+
+			var string1 = "pales";
+			var string2 = "pale";
+
+			eq(oneAway(string1, string2) , true);
+		},
+
+		'Remove a char:  paless, pale   ->    true': function(){ // there are 2 letters difference > false
+
+			var string1 = "paless";
+			var string2 = "pale";
+
+			eq(oneAway(string1, string2) , false);
+		},
+
+		'Replace a char:	 pake,  bake 	 ->    false': function(){ // one letter is different
+			debugger;
+				var string1 = "pake";
+				var string2 = "bake";
+
+				eq(oneAway(string1, string2), true);
+		},
+		'Replace a char:	 pale,  bake 	 ->    false': function(){ // 2 letters are different > fail
+				fail();
+				var string1 = "pale";
+				var string2 = "bake";
+
+				eq(oneAway(string1, string2), false);
+		},
+
+	});
+
+</script>
