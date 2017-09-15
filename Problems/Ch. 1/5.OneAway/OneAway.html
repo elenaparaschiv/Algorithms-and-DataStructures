@@ -20,52 +20,52 @@ var oneAway = function (string1, string2) {
   // daca sunt egale
   // I. Case cu delete (1 mai mica)
   if(first.length !== second.length -1) {
-  return false ;
+   return false ;
   } else {
-  // 3 === 3
-  var mulligan = false;
-  var fP = 0;
-  var sP = 0;
-  while (fP < first.length ) { // 0 < 3
-  if(first[fP] !== second[sP]) {
-  // are dreptul la un mismatch (1 edit)
-  if (mulligan) {
-  return false;
-  } else {
-  mulligan = true;
-  sP++ ; // second length is longer ?
-  }
-  } else {
-  fP++;
-  sP++;
-  }
-  }
-  return true;
-  }
+   // 3 === 3
+    var mulligan = false;
+    var fP = 0;
+    var sP = 0;
+    while (fP < first.length ) { // 0 < 3
+      if(first[fP] !== second[sP]) {
+      // allowed 1 mismatch (1 edit)
+        if (mulligan) {
+          return false;
+        } else {
+          mulligan = true;
+          sP++ ; // second length is longer ?
+        }
+      } else {
+        fP++;
+        sP++;
+      }
+   }
+    return true;
+   }
   };
 
   var checkOneDiff = function(first, second) {
-  if (first.length !== second.length) { // II. Case cu delete (> 1 mai mica)
-  return false;
-  } else {
-  // III. Is egale
-  var mulligan = false;
-  var fP = 0;
-  var sP = 0;
-  while(fP < first.length) {
-  if (first[fP] !== second[sP]) {
-  if (mulligan) {
-  return false ;
-  } else {
-  mulligan = true;
-  }
-  }
-  fP++ ;
-  sP++
-  }
+   if (first.length !== second.length) { // II. Case cu delete (> 1 mai mica)
+     return false;
+   } else {
+  // III.   The 2 strings are equal
+    var mulligan = false;
+    var fP = 0;
+    var sP = 0;
+    while(fP < first.length) {
+     if (first[fP] !== second[sP]) {
+       if (mulligan) {
+         return false ;
+       } else {
+        mulligan = true;
+       }
+     }
+    fP++ ;
+    sP++
+   }
   return true;
   }
-  };
+ };
 
   return checkOneMissing(string1, string2) || checkOneMissing(string2, string1) || checkOneDiff(string1, string2);
 };
