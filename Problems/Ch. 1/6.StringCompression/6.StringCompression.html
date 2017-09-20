@@ -1,0 +1,99 @@
+<script src="tinyTest.js"></script>
+<script>
+
+/**Problem:
+  Implement a method to perform basic string compression using the counts of compressed charachters.
+  I.e. :
+  1.  aabcccccaaa    > a2blc5a3
+  2. If length of compressed string is not smaller than original string > return original string
+  3. The string has only uppercase and lowercase letters
+***************************************************************************************************************
+// Test cases:
+//  original string        compressed string          Return Cases
+
+//    aa                           a2                -> return original string ("aa".length === "a2".length)     // Case 1
+//    ab                           a1b1              -> return original string ("ab".length < "a1b1".length )    // Case 2
+
+
+//    aaa                          a3                -> return compressed string ("aaa".length > "a3".length)    // Case3
+
+***************************************************************************************************************
+*/
+
+
+// Take in a string.
+// Transform to string to lowercase -> toLowerCase()
+// Get the charCode of the element in the string
+// look at the element in the string > return a number for how many times you see it
+
+(function() {
+  var storage = {};
+
+  function strCompress(string) {
+    var originalString = string;
+    var strLowerCase = string.toLowerCase();
+
+    // make the string an array
+    var arrayFromString = strLowerCase.split("")
+    var counter;
+
+    // it should map each elem as a prop on the object with the value as a counter
+    arrayFromString.map(function(getElem){
+      if(getElem in storage === false){
+        counter = 0
+        counter++;
+        storage[getElem] = counter;
+      } else {
+        counter++;
+        storage[getElem] = counter;
+      }
+    });
+
+    var arrayFinal = [];
+    for (var property in storage) {
+      // push the prop name
+      arrayFinal.push(property);
+      // push the prop's value
+      var getValueOfProperty = storage[property].toString()
+      arrayFinal.push(getValueOfProperty);
+    }
+    var compressedString = arrayFinal.join("");
+    // reset the storage to pass the next tests
+    storage = {}
+    // If originalString.length is equal to or <  than  compressed string  => return original String
+    if(originalString.length === compressedString.length || originalString.length < compressedString.length ) {
+      return originalString
+    } else if(originalString.length > compressedString.length) {
+      // if the compressedString.length < originalString.length  => return compressedString
+      return compressedString;
+    }
+
+
+  }
+
+  window.strCompress = strCompress;
+})();
+
+
+
+  tests({
+
+    'It should return the compressed string when its length is less than that of the original string ': function(){
+      debugger;
+      var string = 'aabbb';
+      eq(strCompress(string), "a2b3");
+    },
+
+    'It should return the original string when its length is less than that of the compressed string': function(){
+      var string = 'ab';
+      eq(strCompress(string), "ab");
+    },
+
+    'It should return the original string when the length of the original string and the compressed string is the same': function(){
+      var string = 'aabb';
+      eq(strCompress(string), "aabb");
+    }
+
+  });
+
+</script>
