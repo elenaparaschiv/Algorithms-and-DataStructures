@@ -21,3 +21,5 @@ Second my attempt to the Problems encountered in the book Cracking the Code Inte
 - [x] 1.3 - URLify
 - [x] 1.4 - Palindrome Permutation
 - [x] 1.5 - One Away
+- [x] 1.6 - String Compression
+- [x] 1.7 - Rotate Matrix

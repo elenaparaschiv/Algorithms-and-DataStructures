@@ -1,0 +1,124 @@
+<script src="tinyTest.js"></script>
+<script>
+
+// Given an image represented by an NxN matrix, where each px in the image is 4bytes
+// write a method to rotate the img by 90 degrees
+// Can you do this in place?
+
+/*
+var testMatrix = [               after:
+[1, 2, 3, 4],                    [1, 0, 0, 1]
+[0, 1, 2, 3],             =>     [0, 0, 1, 2]
+[0, 0, 1, 2],                    [0, 1, 2, 3]
+[1, 0, 0, 1]                     [1, 2, 3, 4]
+];
+*/
+
+
+/** Description:
+Every pixel has to rotate to 90 degrees . It starts from left to right each element changind its position 3 points to the right
+ i. e. e x x x       x x x e
+       x x x x   >   x x x x
+       x x x x       x x x x
+       x x x x       x x x x
+
+
+  We use a 0(N ^2) algorithm:
+  There is the square outside and the square inside:
+  First moving the elements in the outside square . (starting at row 0 col 0)
+  and then the elements from the inside square      (starting at row 1 col 1)
+
+  0  0  0  0
+  0  i  i  0
+  0  i  i  0
+  0  0  0  0
+
+  There are 3 loops needed for such rotation across the elements :
+
+  Loop 1: A loop that starts at row 0 col 0 and rotates 90 degrees the first left top corner element to a new psition,
+  Loop 2: That requires a loop 2 which will iterates 4 times so each new position occupied by the rotation has the elements that was originally there
+  rotated too to a new position
+  Loop 3: A loop that stays at row 0 and iterates over col 1 and then col 2 and then col 3, so that the outside square is covered
+  and all the elements will be in new positions.
+
+  When the outside square has all elements rotated , we need to enter the inner square.
+  We start at row 1 col 1 and we use loop 2 that will change the the positions of 4 elements to 90 degrees.
+
+
+Sketch :
+
+ // Loop 1 (Loop of rows)
+ Iterates 2 times , once for row 0 and then for row 1
+for (var i = 0 ; i < 2 ; i++)
+
+// Loop 2 (Loop of columns):
+ 3 elements in a row are going to change position.
+           ! not 4 because there is an edge and as the rotation is 90 degrees it will occupy 3 positions in front
+            of the starting position.
+ for (var i = 0 ; i < 3; i ++)
+
+Observation L :Loop 2 has to be inside loop 1 so that the outer square is finished first
+             // then loop 1 has to enter in row 1 and col 1
+
+
+// Loop 3 (Loop of pixels) :
+ The element starting from loop 1 will rotate.
+ Since there are 4 square lines, we need to iterate 4 times.
+ for (var i = 0 ; i < 4; i ++)
+
+
+*/
+var rotateMatrix = function(matrix) {
+  var edge = matrix.length - 1;
+
+  var movePixels = function(row, col) {
+
+    var fromRow;
+    var fromCol;
+    var fromPixel;
+
+    // first transformation
+    var toRow = row;
+    var toCol = col;
+    var toPixel = matrix[row][col];
+
+    // Do rotational transformation 4 times
+    for (var i=0; i < 4; i++) {
+      fromRow = toRow;
+      fromCol = toCol;
+      toRow = fromCol;
+      toCol = edge - fromRow;
+
+      fromPixel = toPixel;
+      toPixel = matrix[toRow][toCol];
+      matrix[toRow][toCol] = fromPixel;
+    }
+  };
+
+  for (var i=0; i < matrix.length /2 ; i++) {
+    for (var j=i; j < edge - i; j++) {
+      console.log(i, j);
+      movePixels(i, j);
+    }
+  }
+}
+
+  // What does rotate matrix do ?
+  tests({
+
+    'How rotateMatrix works': function(){
+      debugger;
+      var testMatrix = [
+      [1, 2, 3, 4],
+      [0, 1, 2, 3],
+      [0, 0, 1, 2],
+      [1, 0, 0, 1]
+      ];
+
+      rotateMatrix(testMatrix);
+
+    }
+
+  });
+
+</script>
