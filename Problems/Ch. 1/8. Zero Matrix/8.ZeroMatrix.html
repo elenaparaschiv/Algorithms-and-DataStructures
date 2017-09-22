@@ -1,0 +1,84 @@
+<script>
+
+/** Write an algorithm such that if an element in an MxM matrix is 0, its entire row and column are set to 0.
+
+*/
+
+function checkZeros(matrix) {
+  // check each row and each column
+  var matrixWidth=matrix[0].length
+  var matrixHeight = matrix.length
+  var rowsToZeroify = {};
+  var colsToZeroify = {};
+
+  // goes through all the rows
+  for (var i = 0; i < matrixHeight; i++) {
+    // into each col
+    for(var j=0; j < matrixWidth; j++) {
+      // check if an elemt is 0
+      if(matrix[i][j] === 0){
+        // store it into an object
+        rowsToZeroify[i] = true;
+        colsToZeroify[j] = true;
+      }
+    }
+  }
+  return {
+    rowsToZeroify: rowsToZeroify,
+    colsToZeroify: colsToZeroify
+  }
+};
+
+function zeroifyCols(matrix, zeroScan) {
+  for (var col in zeroScan.colsToZeroify ) {
+    zeroifyCol(matrix, col);
+  }
+}
+
+
+function zeroifyCol(matrix, col) {
+  for (var i = 0; i < matrix.length; i++) {
+    matrix[i][col] = 0;
+  }
+}
+
+
+function zeroifyRows(matrix, zeroScan) {
+  for (var row in zeroScan.rowsToZeroify ) {
+  zeroifyRow(matrix, row);
+  }
+}
+
+function zeroifyRow(matrix, row) {
+  for(var i=0; i < matrix[0].length ; i++) {
+    matrix[row][i] = 0;
+  }
+}
+
+function printMatrix(matrix) {
+  for (var i = 0; i < matrix.length; i++){
+    console.log(matrix[i]);
+  }
+}
+
+function zeroMatrix(matrix) {
+  var zeroScan = checkZeros(matrix);
+  zeroifyCols(matrix, zeroScan);
+  zeroifyRows(matrix, zeroScan);
+  return printMatrix(matrix)
+}
+
+
+// Tests
+var testMatrix = [
+          [1, 1, 1, 1],
+          [1, 1, 1, 1],
+          [1, 0, 1, 1],
+          [1, 1, 1, 1],
+          [1, 1, 1, 1],
+          [1, 1, 1, 1]
+      ];
+
+zeroMatrix(testMatrix)
+
+</script>
