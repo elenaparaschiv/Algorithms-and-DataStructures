@@ -1,0 +1,39 @@
+<script src="tinyTest.js"></script>
+<script>
+
+/**
+  Assume you have a method isSubstring which checks if one word is a substring of another.
+  Given 2 strings s1 and s2, check if s2 is a rotation of s1 .
+  !! using only one call to isSubstring .
+  i.e. "waterbottle" is a rotation of "erbottlewat" .
+*/
+
+//
+function stringRotation(s1,s2) {
+  if(s1.length !== s2.length) {
+    return false;
+  } else {
+    return (s2 + s2).includes(s1);
+  }
+}
+
+// Define variables to use in tests
+var s1;
+var s2;
+
+  tests({
+
+    ' If s1 and s2  length is not the same, return false': function(){
+       s1= "waater"
+       s2 = "erwaaaat";
+       eq(stringRotation(s1,s2), false);
+    },
+    ' If s2 is a rotation of s1, it should return true': function(){
+       s1= "waterbottle"
+       s2 = "erbottlewat";
+       eq(stringRotation(s1,s2), true);
+    }
+
+  });
+
+</script>
