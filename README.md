@@ -25,3 +25,6 @@ Second my attempt to the Problems encountered in the book Cracking the Code Inte
 - [x] 1.7 - Rotate Matrix
 - [x] 1.8 - Zero Matrix
 - [x] 1.9 - String Rotation
+
+#### Chapter 2
+- [x] 2.1 - Remove Duplicates

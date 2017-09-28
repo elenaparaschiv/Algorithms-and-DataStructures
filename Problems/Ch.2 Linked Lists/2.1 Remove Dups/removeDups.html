@@ -1,0 +1,64 @@
+<script src="tinyTest.js"></script>
+<script>
+
+/**
+  Remove Dups: Write code to remove duplicates from an unsorted linked list.
+  How would you solve this problem if a temporary buffer is not allowed
+*/
+
+function LinkedList(value) {
+  this.value = value;
+  this.next = null;
+};
+
+// Functions
+
+function checkDups(head, node) {
+  var currNode = head;
+  console.log(head);
+  console.log(node);
+  while (currNode !== node) {
+    // base case
+    if(currNode.value === node.value) {
+      return true;
+    }
+    // recursive case
+      currNode = currNode.next
+      console.log(currNode);
+  }
+  return false
+};
+
+function printLinkedList(head) {
+  var node = head;
+  console.log('start of linked list ');
+  while(node !== null) {
+    console.log(node.value);
+    node = node.next;
+  }
+  console.log('end of linked list');
+};
+
+function removeDups(head) {
+  var node = head;
+  while(node !== null) {
+    console.log(node);
+    if(node.next !== null && checkDups(head, node.next)) {
+      console.log(node.next);
+      node.next = node.next.next;
+      console.log(node.next);
+    } else {
+      node = node.next;
+      console.log(node);
+    }
+  }
+  return head;
+}
+
+
+
+
+
+
+
+</script>
