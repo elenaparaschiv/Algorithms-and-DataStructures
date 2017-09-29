@@ -1,0 +1,166 @@
+
+<script>
+
+/**
+  An implementation of singly linked lists in JavaScript:
+*/
+
+function LinkedList() {
+  var length = 0;
+  var head = null;
+
+  var Node = function(element) {
+    this.element = element;
+    this.next = null;
+  };
+
+  this.size = function() {
+    return length;
+  };
+
+  this.head = function() {
+    return head;
+  };
+
+  //add a node to the LinkedList
+  this.add = function(element) {
+    var node = new Node(element);
+    // if there is no head, make the node you created the head
+    if(head === null) {
+      head = node;
+    } else {
+    // else, if there is a head make it the curentNode
+      var currNode = head;
+    // while there is a next element to the head, reach the last node, where its next is null
+      while(currNode.next) {
+        currentNode = currentNode.next;
+      }
+    // when there is no more next, add the freshly created node
+      curentNode.next = node;
+    }
+    // increase the size of the linked list
+    length++;
+  };
+
+
+
+  this.remove = function(element) {
+    // the first element(the head) becomes the currentNode
+    var currentNode = head;
+    var previousNode;
+    // if the element of the head = the element passed in to delete
+    if(currentNode.element === element) {
+      // the head becomes the next node
+      head = currentNode.next
+    } else {
+      // while the element of the head is not equal to the element passed in
+      while(currentNode.element !== element) {
+          previousNode = currentNode;
+          currentNode = currentNode.next;
+      }
+
+      previousNode.next = currentNode.next;
+    }
+
+    length--;
+  };
+
+  this.isEmpty = function() {
+    return length === 0;
+  };
+
+  this.indexOf = function(element) {
+    var currentNode = head;
+    var index = -1;
+
+    // while there is a head
+    while(currentNode) {
+      // increase index by 1
+      index++;
+      // if the element of the head is = to the element
+      if(currentNode.element === element) {
+        // return the index
+          return index;
+      }
+      // else make the currentNode the next element
+      currentNode = currentNode.next;
+    }
+    // if the elem is not in the head and is not in all the other nexts, return -1
+    return -1;
+  };
+
+  // find the element at a certain index
+  this.elementAt = function(index) {
+    var currentNode = head;
+    var count = 0;
+    while (count < index) {
+      count++;
+      currentNode = currentNode.next;
+    }
+    return currentNode.element;
+  };
+
+  this.addAt = function(index, element) {
+    var node = new Node(element);
+
+    var currentNode = head;
+    var previousNode;
+    var currentIndex = 0;
+
+    if(index > length) {
+      return false;
+    }
+
+    if(index === 0) {
+      node.next = currentNode;
+      head = node;
+    } else {
+      while(currentIndex < index) {
+        currentIndex++;
+        previousNode = currentNode;
+        currentNode = currentNode.next;
+      }
+      node.next = currentNode;
+      previousNode.next = node;
+    }
+    length++;
+  }
+
+  this.removeAt = function(index) {
+    var currentNode = head;
+    var previousNode;
+    var currentIndex = 0;
+
+    if(index < 0 || index >= length) {
+      return null
+    }
+    // if index is 0 will make the head the next element
+    if(index === 0) {
+      head = currentNode.next;
+    } else {
+      while(currentIndex < index) {
+        currentIndex++;
+        previousNode = currentNode;
+        currentNode = currentNode.next;
+      }
+      previousNode.next = currentNode.next;
+    }
+    length--;
+    return currentNode.element
+  }
+}
+
+
+// Tests
+
+var test = new LinkedList();
+test.add('Kickass');
+test.add('SuperHero');
+console.log(test.size());
+console.log(test.removeAt(0));
+console.log(test.removeAt(1));
+console.log(test.size());
+
+
+
+</script>
