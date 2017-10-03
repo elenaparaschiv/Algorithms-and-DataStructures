@@ -1,0 +1,121 @@
+<script src="tinyTest.js"></script>
+<script>
+
+/**
+  Write code to partition a linked list around a value x,
+  such that all nodes < x come before all the nodes >= to x.
+  If x is contained within the list, the values of x only need to be after
+  the elements < than x.
+  The partition element x can appear anywhere in the "right partition".
+  It does not need to appear between the left and right partitions.
+*/
+
+// Input: 3 -> 5 -> 8 -> 5 -> 10 -> 2 -> 1 [partition= 5]
+// Output: 3 -> 1 -> 2 -> 10 -> 5 -> 5 -> 8
+
+
+/** Create 2 different linked lists:
+  // 1. elem <x    2. elem >= x
+  // Iterate through the lk. list, inserting elem, into 1 or 2. list
+  // Once we reach the end of the lk.list, we merge the 2 lists.
+*/
+
+var LinkedList = function(value) {
+  this.value = value;
+  this.next = null;
+};
+
+var partition = function(head, partition) {
+  var left;
+  var right;
+  var currLeft = null;
+  var currRight = null;
+
+  var node = head;
+  while (node !== null) {
+
+    if (node.value < partition) {
+      if(currLeft === null) {
+        left = node;
+        currLeft = left;
+      } else {
+        currLeft.next = node;
+        currLeft = currLeft.next;
+      }
+
+    } else {
+      if (currRight === null) {
+        right = node;
+        currRight = right;
+      } else {
+        currRight.next = node;
+        currRight = currRight.next;
+      }
+    }
+    node = node.next;
+  }
+
+  currRight.next = null;
+  currLeft.next = right; // connect 2 partitions together
+  return left; // return head of new linkedlist
+};
+
+var printList = function(a) {
+  while (a !== null) {
+    console.log(a.value);
+    a = a.next;
+  }
+};
+
+
+// Test
+
+// Test 1
+var a = new LinkedList(3);
+var b = new LinkedList(5);
+var c = new LinkedList(8);
+var d = new LinkedList(5);
+var e = new LinkedList(10);
+var f = new LinkedList(2);
+var g = new LinkedList(1);
+
+a.next = b;
+b.next = c;
+c.next = d;
+d.next = e;
+e.next = f;
+f.next = g;
+
+printList(a); // before
+var testPartition = partition(a, 5);
+printList(a); // after
+
+// Test 2
+var a = new LinkedList(3);
+var b = new LinkedList(5);
+var c = new LinkedList(8);
+var d = new LinkedList(1);
+var e = new LinkedList(10);
+var f = new LinkedList(2);
+var g = new LinkedList(1);
+
+a.next = b;
+b.next = c;
+c.next = d;
+d.next = e;
+e.next = f;
+f.next = g;
+
+printList(a); // before
+var testPartition = partition(a, 5);
+printList(a); // after
+
+
+
+
+
+
+
+
+
+</script>

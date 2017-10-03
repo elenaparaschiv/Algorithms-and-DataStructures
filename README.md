@@ -29,3 +29,6 @@ Second my attempt to the Problems encountered in the book Cracking the Code Inte
 
 #### Chapter 2
 - [x] 2.1 - Remove Duplicates
+- [x] 2.2 - Return Kth to Last
+- [x] 2.3 - Delete Middle Node
+- [x] 2.4 - Partition
