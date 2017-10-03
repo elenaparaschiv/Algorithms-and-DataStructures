@@ -10,6 +10,7 @@ Second my attempt to the Problems encountered in the book Cracking the Code Inte
 ## List of Algorithms and Data Structures
 
 - [x] 1. - Lists.
+- [x] 2. - Linked Lists.
 
 
 
