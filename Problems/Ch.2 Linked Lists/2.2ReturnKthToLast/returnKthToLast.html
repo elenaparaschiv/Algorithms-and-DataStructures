@@ -6,12 +6,12 @@
   Implement an algorithm to find the kth to last element of a single linked list:
 */
 
-function linkedList(value) {
+var linkedList = function(value) {
   this.value = value;
   this.next = null;
-}
+};
 
-function findKthToLast(k, head) {
+var findKthToLast = function(k, head) {
   if(head === null || k < 1) {
     return;
   } else if (k === 1) {
@@ -23,7 +23,6 @@ function findKthToLast(k, head) {
 };
 
 // tests
-	'It should return when k < 1': function(){
     var a = new linkedList('1');
     var b = new linkedList('2');
     var c = new linkedList('3');
