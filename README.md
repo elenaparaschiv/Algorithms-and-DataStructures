@@ -32,3 +32,5 @@ Second my attempt to the Problems encountered in the book Cracking the Code Inte
 - [x] 2.2 - Return Kth to Last
 - [x] 2.3 - Delete Middle Node
 - [x] 2.4 - Partition
+- [x] 2.5 - SumLists
+- []  2.5 -  SumLists Follow-up

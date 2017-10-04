@@ -1,0 +1,111 @@
+<script src="tinyTest.js"></script>
+<script>
+
+/**
+You have 2 numbers represented by a linked list, where each node contains a single digit.
+The digits are stored in reverse order, such that the 1'st digit is at the head of the list.
+Write a function that adds the 2 numbers and returns the sum as a linked list.
+
+i.e.
+Input (7-> 1 -> 6) + (5 -> 9 -> 2). That is, 617 + 295
+Output (2 -> 1 -> 9). That is 912.
+
+
+// Sketch
+// It should sum the value of each element of the two linked lists with each other
+// It should create a third linked list that stores the result, according to 3 cases:
+  // C1:if result is 1 digit -> simply add digit to linkedList
+  // C2:if result is 2 digits -> add 2nd digit to linkedList & (store first digit) to add to next sum iteration
+  // C3 : the sum result followed by a previous stored first digit adds that to its sum result.
+
+*/
+
+function LinkedList(value) {
+  this.value = value;
+  this.next = null;
+}
+
+function sumList(head1 ,head2) {
+  var node1 = head1;
+  var node2 = head2;
+  var head3 = null;
+  var node3 = null;
+
+  var ones;
+  var tens = 0;
+  var sum
+
+  // make a loop where all the elements of the Lk List will be summed
+  while( node1 !== null && node2 !== null) {
+    // it should sum the 2
+    sum = node1.value + node2.value;
+    // if it has tens stored from previous sum, add them
+    sum += tens;
+    //it gets the second digit if the result is 2 digits
+    ones = sum % 10;
+
+    // after they got summed it should push the correct digit to the node3 :
+    if(node3 === null) {
+        head3 = new LinkedList(ones);
+        node3 = head3;
+    // else if we have a head allready to node 3, keep adding to next
+    } else {
+      node3.next = new LinkedList(ones);
+      // and make this new node the current one for next iteration
+      node3 = node3.next;
+    }
+
+    // Gets the tens that are left and should be added next time
+    tens = Math.floor(sum / 10);
+
+    // it should bring the next value:
+    if (node1 !== null) {
+      node1 = node1.next;
+    }
+    if (node2 !== null) {
+      node2 = node2.next;
+    }
+  }
+
+  return head3;
+
+}
+
+
+
+tests({
+	'It should return the sum of the two linked lists in the form of a reverse third linked list': function(){
+
+    var a = new LinkedList(7);
+    var b = new LinkedList(1);
+    var c = new LinkedList(6);
+
+    a.next = b;
+    b.next = c;
+
+    var d = new LinkedList(5);
+    var e = new LinkedList(9);
+    var f = new LinkedList(2);
+
+    d.next = e;
+    e.next = f;
+
+    // result to test
+    var g = new LinkedList(2);
+    var h = new LinkedList(1);
+    var i = new LinkedList(9);
+
+    g.next = h;
+    h.next = i
+
+    var result = sumList(a,d)
+
+    eq(result.value, 2 );
+    eq(result.next.value, 1);
+    eq(result.next.next.value, 9);
+	},
+
+
+});
+
+</script>
