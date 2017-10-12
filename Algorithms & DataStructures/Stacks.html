@@ -1,0 +1,73 @@
+<script src="tinyTest.js"></script>
+<script>
+
+/*
+Definition:
+A Stack is an abstract data type that serves as a collection of elements, with two principal operations:
+  -push, which adds an element to the collection
+  -pop, which removes the most recently added element that was not yet removed.
+   LIFO order (last in, first out). (similar to stacking plates)
+**/
+
+function Stack() {
+  this.stack = [];
+
+  Stack.prototype.push = function(value) {
+    this.stack.push(value);
+  };
+
+  Stack.prototype.pop = function() {
+    return this.stack.pop();
+  };
+
+  // return the last element of the stack
+  Stack.prototype.peek = function() {
+    return this.stack[this.stack.length - 1];
+  };
+
+  Stack.prototype.length = function() {
+    return this.stack.length;
+  };
+
+  Stack.prototype.print = function() {
+    return this.stack.join('');
+  }
+
+}
+
+tests({
+	'It should push elements to the stack': function(){
+    var stackExample = new Stack();
+    stackExample.push(2);
+    eq(stackExample.stack[0], 2);
+  },
+  'It should pop elements of the stack': function(){
+    var stackExample = new Stack();
+    stackExample.push(2);
+    eq(stackExample.stack[0], 2);
+    stackExample.pop();
+    eq(stackExample.stack[0], undefined);
+  },
+  'It should peek and tell the last value of the stack': function(){
+    var stackExample = new Stack();
+    stackExample.push(2);
+    stackExample.push(3);
+    eq(stackExample.peek(), 3);
+  },
+  'It should return the length of the stack': function(){
+    var stackExample = new Stack();
+    stackExample.push(2);
+    stackExample.push(3);
+    eq(stackExample.length(), 2);
+  },
+  'It should print the stack': function(){
+
+    var stackExample = new Stack();
+    stackExample.push(2);
+    stackExample.push(3);
+    eq(stackExample.print(), '23');
+  }
+});
+
+
+</script>

@@ -1,0 +1,70 @@
+<script src="tinyTest.js"></script>
+<script>
+
+/*
+Definition:
+A Queue is an abstract data type or collection in which the entities inside are kept in order. The principal operations are:
+  -enqueue, the addition of entities to the rear terminal position
+  -dequeue, the removal of entities from the front terminal position
+  FIFO order (first-in, first-out) (similar to how restaurants store juices in the fridge)
+
+  Obs: A peek operation is added to the Queue and returns the front element without dequeuing it.
+**/
+
+function Queue() {
+  this.queue = [];
+}
+
+Queue.prototype.enqueue = function(value) {
+  this.queue.push(value)
+};
+
+Queue.prototype.dequeue = function(value) {
+  return this.queue.shift();
+};
+
+Queue.prototype.peek = function() {
+  return this.queue[0];
+};
+
+Queue.prototype.length = function() {
+  return this.queue.length;
+};
+
+Queue.prototype.print = function() {
+  return this.queue.join('')
+};
+
+
+
+tests({
+	'It should enqueue elements': function(){
+    var queueTest = new Queue();
+    queueTest.enqueue(1)
+    eq(queueTest.queue[0], 1);
+  },
+  'It should dequeue elements': function(){
+    var queueTest = new Queue();
+    queueTest.enqueue(1);
+    queueTest.enqueue(2);
+    queueTest.dequeue()
+    eq(queueTest.queue[0], 2);
+  },
+  'It should peek the first element without dequeuing it': function(){
+    debugger;
+    var queueTest = new Queue();
+    queueTest.enqueue(1);
+    queueTest.enqueue(2);
+    eq(queueTest.peek(), 1);
+
+  },
+  'It should print the elem of the queue': function(){
+    var queueTest = new Queue();
+    queueTest.enqueue(1);
+    queueTest.enqueue(2);
+    eq(queueTest.print(), '12')
+  }
+});
+
+
+</script>

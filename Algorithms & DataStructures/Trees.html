@@ -1,0 +1,276 @@
+<script src="tinyTest.js"></script>
+<script>
+
+/*
+Definition:
+  A Tree is a data structure that simulates a hierarchical tree structure,
+  with a root value and subtrees of children with a parent node.
+  A tree data structure can be defined recursively, as a collection of nodes (starting at a root node),
+  where each node is a data structure consisting of a value, together with a list of references to the node('the children'),
+  with the constraint that no reference is duplicated, and none points to the root node.
+**/
+
+function Node(data) {
+  this.data = data;
+  this.children = [];
+};
+
+function Tree() {
+  this.root = null;
+};
+
+Tree.prototype.add = function(data, toNodeData) {
+  var node = new Node(data);
+  // if there is no toNodeData, parent is null
+  var parent = toNodeData ? this.findBFS(toNodeData): null;
+  // if parent is not null, it will have children, to which you will push new Node(data)
+  if(parent) {
+    parent.children.push(node);
+  } else {
+  // if there is no parent, than it is first element and it will be a root
+    if(!this.root) {
+      this.root = node;
+
+    } else {
+      return 'Root node is already assigned';
+    }
+  }
+};
+
+Tree.prototype.remove = function(data) {
+  // ? if the data removed belongs to the root (as in test 1 ?)
+  if(this.root.data === data) {
+    this.root = null;
+    //! add this to simply return, if delete only the root
+    return;
+  }
+  // otherwise if the data belongs to a child of the root
+  var queue = [this.root];
+  while(queue.length) {
+    // return me each element of the array from the first
+    var node = queue.shift();
+    for(var i = 0; i < node.children.length ; i++) {
+      if(node.children[i].data === data) {
+        node.children.splice(i, 1);
+        // what is this else case
+        // if none of the element's data is = to data, push me the last element
+      } else {
+        queue.push(node.children[i]);
+      }
+    }
+  }
+};
+
+// to add children it should implement
+// toNodeData ? this.findBFS(toNodeData)
+
+Tree.prototype.contains = function(data) {
+  return this.findBFS(data) ? true : false;
+};
+
+Tree.prototype.findBFS = function(data) {
+  // queul va fi eval cu rootul
+  var queue = [this.root];
+  // atata timp cat rootul are o lungime
+  //va lua fiecare nod in parte
+
+  while(queue.length) {
+    var node = queue.shift();
+    // daca data nodului este egala cu data introdusa, intoarce nodul
+    if(node.data === data) {
+      return node;
+    }
+    // altfel treci prin fiecare copil al nodului
+    // si impinge la radacina fiecare copil pentru cati sunt
+    for(var i = 0; i < node.children.length; i++) {
+      queue.push(node.children[i]);
+    }
+  }
+
+  // daca nu e nicio lungime la queue
+  return null;
+};
+
+Tree.prototype.print = function() {
+  if(!this.root) {
+    return console.log('No root node found');
+  }
+  var newline = new Node('|');
+  var queue = [this.root, newline];
+  var string = '';
+  while(queue.length) {
+    var node = queue.shift();
+    string += node.data.toString() + ' ';
+    if(node === newline && queue.length) {
+      queue.push(newline);
+    }
+    for(var i = 0; i < node.children.length; i++) {
+      queue.push(node.children[i]);
+    }
+  }
+  console.log(string.slice(0, -2).trim());
+}
+
+Tree.prototype.traverseBFS = function(fn) {
+  var queue = [this.root];
+  while(queue.length) {
+    var node = queue.shift();
+    if(fn) {
+      fn(node);
+    }
+    for(var i = 0; i < node.children.length; i++) {
+      queue.push(node.children[i]);
+    }
+  }
+};
+
+Tree.prototype.traverseDFS = function(fn, method) {
+  var current = this.root;
+  if(method) {
+    this['_' + method](current, fn);
+  } else {
+    this._preOrder(current, fn);
+  }
+};
+
+Tree.prototype._preOrder = function(node, fn) {
+  if(node) {
+    if(fn) {
+      fn(node);
+    }
+    for(var i = 0; i < node.children.length; i++ ) {
+      this._preOrder(node.children[i], fn);
+    }
+  }
+};
+
+Tree.prototype._postOrder = function(node, fn) {
+  if(node) {
+    for(var i = 0; i < node.children.length; i++) {
+      this._postOrder(node.children[i], fn);
+    }
+    if(fn) {
+      fn(node);
+    }
+  }
+};
+
+
+tests({
+	'It should make the first node as the root node': function(){
+    var tree = new Tree();
+    tree.add('ceo')
+    eq(tree.root.data, 'ceo');
+  },
+  'It should add one child to the root node': function(){
+    var tree = new Tree();
+    tree.add('ceo')
+    tree.add('cto', 'ceo');
+    eq(tree.root.children[0].data, 'cto');
+  },
+  'It should add one child to the first child of the root': function(){
+    var tree = new Tree();
+    tree.add('ceo');
+    tree.add('cto', 'ceo');
+    tree.add('dev1', 'cto');
+    eq(tree.root.children[0].children[0].data, 'dev1');
+  },
+  'It should add another child to the first child of the root': function(){
+    var tree = new Tree();
+    tree.add('ceo')
+    tree.add('cto', 'ceo');
+    tree.add('dev1', 'cto');
+    tree.add('dev2', 'cto');
+    eq(tree.root.children[0].children[1].data, 'dev2');
+  },
+  'It should add a third child to the first child of the root': function(){
+    var tree = new Tree();
+    tree.add('ceo')
+    tree.add('cto', 'ceo');
+    tree.add('dev1', 'cto');
+    tree.add('dev2', 'cto');
+    tree.add('dev3', 'cto');
+    eq(tree.root.children[0].children[2].data, 'dev3');
+  },
+  'It should add a second child to the root after the first child of the root has added children': function(){
+    var tree = new Tree();
+    tree.add('ceo')
+    tree.add('cto', 'ceo');
+    tree.add('dev1', 'cto');
+    tree.add('dev2', 'cto');
+    tree.add('dev3', 'cto');
+    tree.add('cfo', 'ceo');
+    eq(tree.root.children[1].data, 'cfo');
+  },
+  'It should remove the root': function(){
+    var tree = new Tree();
+    tree.add('ceo')
+    tree.remove('ceo')
+    eq(tree.root, null);
+  },
+  'It should remove the children of the root': function(){
+    var tree = new Tree();
+    tree.add('ceo')
+    tree.add('cto', 'ceo');
+    tree.remove('cto')
+    eq(tree.root.children[0], undefined);
+  },
+  'It should remove children of children of the root': function(){
+    var tree = new Tree();
+    tree.add('ceo')
+    tree.add('cto', 'ceo');
+    tree.add('dev1', 'cto');
+    tree.add('dev2', 'cto');
+    tree.remove('dev2')
+    eq(tree.root.children[0].children[1], undefined);
+  },
+  'It should return true if the tree contains a node or false if not ': function(){
+
+    var tree = new Tree();
+    tree.add('ceo');
+    tree.add('cto', 'ceo');
+    tree.add('dev1', 'cto');
+    tree.add('dev2', 'cto');
+    eq(tree.contains('dev1'), true);
+  },
+  'It should traverse a tree': function(){
+    var tree = new Tree();
+    tree.add('ceo');
+    tree.add('cto', 'ceo');
+    tree.add('dev1', 'cto');
+    tree.add('dev2', 'cto');
+    tree.add('dev3', 'cto');
+    tree.add('cfo', 'ceo');
+    tree.add('accountant', 'cfo');
+    tree.add('cmo', 'ceo');
+    tree.traverseBFS(function(node) { console.log(node.data); });
+  },
+  'It should traverse a tree by branches, preOrder': function(){
+    var tree = new Tree();
+    tree.add('ceo');
+    tree.add('cto', 'ceo');
+    tree.add('dev1', 'cto');
+    tree.add('dev2', 'cto');
+    tree.add('dev3', 'cto');
+    tree.add('cfo', 'ceo');
+    tree.add('accountant', 'cfo');
+    tree.add('cmo', 'ceo');
+    tree.traverseDFS(function(node) { console.log(node.data); }, 'preOrder');
+  },
+  'It should traverse a tree by branches, postOrder': function(){    
+    var tree = new Tree();
+    tree.add('ceo');
+    tree.add('cto', 'ceo');
+    tree.add('dev1', 'cto');
+    tree.add('dev2', 'cto');
+    tree.add('dev3', 'cto');
+    tree.add('cfo', 'ceo');
+    tree.add('accountant', 'cfo');
+    tree.add('cmo', 'ceo');
+    tree.traverseDFS(function(node) { console.log(node.data); }, 'postOrder');
+  }
+
+});
+
+
+</script>
