@@ -38,7 +38,7 @@ Tree.prototype.remove = function(data) {
   if(this.root.data === data) {
     this.root = null;
     return;
-  }  
+  }
   var queue = [this.root];
   while(queue.length) {
     var node = queue.shift();
@@ -206,7 +206,6 @@ tests({
     eq(tree.root.children[0].children[1], undefined);
   },
   'It should return true if the tree contains a node or false if not ': function(){
-
     var tree = new Tree();
     tree.add('ceo');
     tree.add('cto', 'ceo');
