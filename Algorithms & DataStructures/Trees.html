@@ -21,13 +21,10 @@ function Tree() {
 
 Tree.prototype.add = function(data, toNodeData) {
   var node = new Node(data);
-  // if there is no toNodeData, parent is null
   var parent = toNodeData ? this.findBFS(toNodeData): null;
-  // if parent is not null, it will have children, to which you will push new Node(data)
   if(parent) {
     parent.children.push(node);
   } else {
-  // if there is no parent, than it is first element and it will be a root
     if(!this.root) {
       this.root = node;
 
@@ -38,22 +35,16 @@ Tree.prototype.add = function(data, toNodeData) {
 };
 
 Tree.prototype.remove = function(data) {
-  // ? if the data removed belongs to the root (as in test 1 ?)
   if(this.root.data === data) {
     this.root = null;
-    //! add this to simply return, if delete only the root
     return;
-  }
-  // otherwise if the data belongs to a child of the root
+  }  
   var queue = [this.root];
   while(queue.length) {
-    // return me each element of the array from the first
     var node = queue.shift();
     for(var i = 0; i < node.children.length ; i++) {
       if(node.children[i].data === data) {
         node.children.splice(i, 1);
-        // what is this else case
-        // if none of the element's data is = to data, push me the last element
       } else {
         queue.push(node.children[i]);
       }
@@ -61,33 +52,23 @@ Tree.prototype.remove = function(data) {
   }
 };
 
-// to add children it should implement
-// toNodeData ? this.findBFS(toNodeData)
 
 Tree.prototype.contains = function(data) {
   return this.findBFS(data) ? true : false;
 };
 
 Tree.prototype.findBFS = function(data) {
-  // queul va fi eval cu rootul
   var queue = [this.root];
-  // atata timp cat rootul are o lungime
-  //va lua fiecare nod in parte
-
   while(queue.length) {
     var node = queue.shift();
-    // daca data nodului este egala cu data introdusa, intoarce nodul
     if(node.data === data) {
       return node;
     }
-    // altfel treci prin fiecare copil al nodului
-    // si impinge la radacina fiecare copil pentru cati sunt
     for(var i = 0; i < node.children.length; i++) {
       queue.push(node.children[i]);
     }
   }
 
-  // daca nu e nicio lungime la queue
   return null;
 };
 
@@ -257,7 +238,7 @@ tests({
     tree.add('cmo', 'ceo');
     tree.traverseDFS(function(node) { console.log(node.data); }, 'preOrder');
   },
-  'It should traverse a tree by branches, postOrder': function(){    
+  'It should traverse a tree by branches, postOrder': function(){
     var tree = new Tree();
     tree.add('ceo');
     tree.add('cto', 'ceo');
